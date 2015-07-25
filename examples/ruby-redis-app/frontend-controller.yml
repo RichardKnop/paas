@@ -1,0 +1,21 @@
+---
+  apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    name: ruby-redis-app
+    labels:
+      name: ruby-redis-app
+  spec:
+    replicas: 3
+    selector:
+      name: ruby-redis-app
+    template:
+      metadata:
+        labels:
+          name: ruby-redis-app
+      spec:
+        containers:
+        - name: php-redis
+          image: kubernetes/example-guestbook-php-redis:v2
+          ports:
+          - containerPort: 80
