@@ -1,0 +1,14 @@
+---
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: registry-master
+    labels:
+      name: registry-master
+  spec:
+    ports:
+      # the port that this service should serve on
+    - port: 5000
+      targetPort: 5000
+    selector:
+      name: registry-master

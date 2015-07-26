@@ -20,12 +20,45 @@ vagrant up
 ## Redis
 
 ```
-kubectl create -f examples/redis/redis-master-controller.yaml
-kubectl create -f examples/redis/redis-master-service.yaml
-kubectl create -f examples/redis/redis-slave-controller.yaml
-kubectl create -f examples/redis/redis-slave-service.yaml
+kubectl create -f examples/redis/master-controller.yml
+kubectl create -f examples/redis/master-service.yml
+kubectl create -f examples/redis/slave-controller.yml
+kubectl create -f examples/redis/slave-service.yml
+```
+
+## Docker registry
+
+```
+kubectl create -f examples/registry/master-controller.yml
+kubectl create -f examples/registry/master-service.yml
+```
+
+## Guestbook App
+
+```
+kubectl create -f examples/guestbook/frontend-controller.yml
+kubectl create -f examples/guestbook/frontend-service.yml
 ```
 
 ## Ruby With Redis Example App
 
-TODO
+You need to have both Redis and Docker registry pods running.
+
+```
+vagrant ssh node-01
+cd /tmp
+git clone https://github.com/RichardKnop/sinatra-redis-blog.git
+cd sinatra-redis-blog
+docker build -t ruby-redis-app
+docker tag ruby-redis-app registry-master/ruby-redis-app
+docker push 10.100.129.115:5000/registry-master/ruby-redis-app
+```
+
+You can find the registry ip by running `kubectl get services`.
+
+## Cleanup
+
+```
+kubectl stop rc -l "name in (registry-master, redis-master, redis-slave, guestbook-frontend, ruby-redis-app)"
+kubectl delete service -l "name in (registry-master, redis-master, redis-slave, guestbook-frontend, ruby-redis-app)"
+```
