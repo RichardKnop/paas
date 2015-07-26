@@ -17,6 +17,20 @@ export KUBERNETES_MASTER=http://172.17.8.101:8080
 vagrant up
 ```
 
+## Docker Registry
+
+```
+kubectl create -f examples/registry/master-controller.yml
+kubectl create -f examples/registry/master-service.yml
+```
+
+## Build Server
+
+```
+kubectl create -f examples/build-server/master-controller.yml
+kubectl create -f examples/build-server/master-service.yml
+```
+
 ## Redis
 
 ```
@@ -24,13 +38,6 @@ kubectl create -f examples/redis/master-controller.yml
 kubectl create -f examples/redis/master-service.yml
 kubectl create -f examples/redis/slave-controller.yml
 kubectl create -f examples/redis/slave-service.yml
-```
-
-## Docker registry
-
-```
-kubectl create -f examples/registry/master-controller.yml
-kubectl create -f examples/registry/master-service.yml
 ```
 
 ## Guestbook App
@@ -59,6 +66,6 @@ You can find the registry ip by running `kubectl get services`.
 ## Cleanup
 
 ```
-kubectl stop rc -l "name in (registry-master, redis-master, redis-slave, guestbook-frontend, ruby-redis-app)"
-kubectl delete service -l "name in (registry-master, redis-master, redis-slave, guestbook-frontend, ruby-redis-app)"
+kubectl stop rc -l "name in (build-server-master, registry-master, redis-master, redis-slave, guestbook-frontend, ruby-redis-app)"
+kubectl delete service -l "name in (build-server-master, registry-master, redis-master, redis-slave, guestbook-frontend, ruby-redis-app)"
 ```

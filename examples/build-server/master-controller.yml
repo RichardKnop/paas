@@ -1,0 +1,23 @@
+---
+  apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    name: build-server-master
+    labels:
+      name: build-server-master
+  spec:
+    replicas: 1
+    selector:
+      name: build-server-master
+    template:
+      metadata:
+        labels:
+          name: build-server-master
+      spec:
+        containers:
+        - name: build-server-master
+          command: ["/bin/sh", "-c"]
+          args: ["while true; do /bin/echo 'hello world'; sleep 2; done"]
+          image: buildpack-deps
+          ports:
+          - containerPort: 80

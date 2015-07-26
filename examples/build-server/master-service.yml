@@ -2,12 +2,12 @@
   apiVersion: v1
   kind: Service
   metadata:
-    name: registry-master
+    name: build-server-master
     labels:
-      name: registry-master
+      name: build-server-master
   spec:
     ports:
       # the port that this service should serve on
-    - port: 5000
+    - port: 80
     selector:
-      name: registry-master
+      name: build-server-master
